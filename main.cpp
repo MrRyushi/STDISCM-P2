@@ -86,13 +86,20 @@ int getRandomNumber(int min, int max) {
     return dist(gen);
 }
 
+void displayStatus() {
+    unique_lock<mutex> lock(mtx);
+    cout << "\nCurrent Instance Status:" << endl;
+    for (int i = 0; i < maxConcurrentInstance; i++) {
+        cout << "Instance " << i + 1 << ": " << (instances[i].active ? "active" : "empty") << endl;
+    }
+}
+
 void queueParties(int instanceIndex){
     while (true) {
         // Lock to prevent race conditions
         unique_lock<mutex> lock(mtx);
         if (tankPlayers < 1 || healerPlayers < 1 || dpsPlayers < 3) {
-            cout << "Waiting for more players" << endl;
-            return; // No more parties can be formed
+            break;
         }
         cout << "Queueing up players" << endl;
         // Assign players to an instance
@@ -102,19 +109,16 @@ void queueParties(int instanceIndex){
         instances[instanceIndex].active = true;
         lock.unlock();
 
+        displayStatus();
+
         // Simulate dungeon duration
         int dungeonTime = getRandomNumber(minTime, maxTime);
         this_thread::sleep_for(chrono::seconds(dungeonTime));
         
-        cout << "Dequeueing up players" << endl;
-        // Lock again to update the status
         lock.lock();
         instances[instanceIndex].active = false;
         instances[instanceIndex].partiesServed++;
         instances[instanceIndex].totalTimeServed += dungeonTime;
-        tankPlayers++;
-        healerPlayers++;
-        dpsPlayers += 3;
         lock.unlock();
     }
 
