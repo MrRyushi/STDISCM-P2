@@ -88,9 +88,9 @@ int getRandomNumber(int min, int max) {
 
 void displayStatus() {
     unique_lock<mutex> lock(mtx);
-    cout << "\nCurrent Instance Status:" << endl;
+    cout << "\nCurrent Dungeons Status:" << endl;
     for (int i = 0; i < maxConcurrentInstance; i++) {
-        cout << "Instance " << i + 1 << ": " << (instances[i].active ? "active" : "empty") << endl;
+        cout << "Dungeon " << i + 1 << ": " << (instances[i].active ? "active" : "empty") << endl;
     }
 }
 
@@ -163,9 +163,10 @@ int main(){
     // Final report
     cout << "\nDungeon Instance Summary:" << endl;
     for (int i = 0; i < maxConcurrentInstance; i++) {
-        cout << "Instance " << i + 1 << " served " << instances[i].partiesServed
+        cout << "Dungeon " << i + 1 << " served " << instances[i].partiesServed
              << " parties, total time served: " << instances[i].totalTimeServed << "s\n";
     }
+    cout << endl << "Remaining players: " << endl << tankPlayers << " tanks, " << endl << healerPlayers << " healers, " << endl << dpsPlayers << " dps" << endl;
 
     return 0;
 }
