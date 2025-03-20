@@ -56,7 +56,7 @@ bool isNumValid(std::string value) {
     try {
         int num = std::stoi(value);
         if (num <= 0) {
-            std::cerr << "Error: Number must be greater than 0!" << std::endl;
+            std::cerr << "Error: Number must be greater than or equal to 0!" << std::endl;
             return false;
         }
     } catch (const std::exception& e) {
@@ -147,6 +147,24 @@ int main(){
         }
     }
     configFile.close();
+
+    // exit the program if the input is not valid
+    if (minTime >= maxTime) {
+        std::cerr << "Error: minTime must be less than maxTime!" << std::endl;
+        return 1;
+    } else if(maxConcurrentInstance < 1){
+        std::cerr << "Error: Number of instances must be greater than 0!" << std::endl;
+        return 1;
+    } else if(tankPlayers < 1 || healerPlayers < 1 || dpsPlayers < 3){
+        std::cerr << "Error: Not enough players to form a party!" << std::endl;
+        return 1;
+    } else if(minTime < 1 || maxTime < 1){
+        std::cerr << "Error: Time must be greater than 0!" << std::endl;
+        return 1;
+    } else if(maxTime > 15){
+        std::cerr << "Error: Time must be less than 15!" << std::endl;
+        return 1;
+    } 
 
     // resize the instances vector based on user input
     instances.resize(maxConcurrentInstance);
