@@ -10,20 +10,20 @@
 using namespace std;
 
 // user inputs from config file
-int tankPlayers = 0;
-int healerPlayers = 0;
-int dpsPlayers = 0;
-int maxConcurrentInstance = 0;
-int minTime = 0;
-int maxTime = 0;
+unsigned int tankPlayers = 0;
+unsigned int healerPlayers = 0;
+unsigned int dpsPlayers = 0;
+unsigned int maxConcurrentInstance = 0;
+unsigned int minTime = 0;
+unsigned int maxTime = 0;
 
 // Mutex for synchronization
 mutex mtx;
 
 struct DungeonInstance {
     bool active = false;
-    int partiesServed = 0;
-    int totalTimeServed = 0;
+    unsigned int partiesServed = 0;
+    unsigned int totalTimeServed = 0;
 };
 vector<DungeonInstance> instances;
 
@@ -67,7 +67,7 @@ bool isNumValid(std::string value) {
     return true;
 }
 
-int getValueFromLine(std::string line, std::string key){
+unsigned int getValueFromLine(std::string line, std::string key){
     if(line.find(key) != std::string::npos){
         std::string value = line.substr(line.find('=') + 1);
         if(isNumValid(value)){
@@ -79,7 +79,7 @@ int getValueFromLine(std::string line, std::string key){
     return 0;
 }
 
-int getRandomNumber(int min, int max) {
+unsigned int getRandomNumber(int min, int max) {
     std::random_device rd;  
     std::mt19937 gen(rd()); 
     std::uniform_int_distribution<int> dist(min, max);
