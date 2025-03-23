@@ -118,6 +118,8 @@ void queueParties(int instanceIndex){
         instances[instanceIndex].active = true;
         lock.unlock();
 
+        displayStatus();
+
         // Simulate dungeon duration
         int dungeonTime = getRandomNumber(minTime, maxTime);
         this_thread::sleep_for(chrono::seconds(dungeonTime));
