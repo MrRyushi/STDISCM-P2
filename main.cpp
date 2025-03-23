@@ -89,9 +89,18 @@ unsigned int getRandomNumber(int min, int max) {
 void displayStatus() {
     unique_lock<mutex> lock(mtx);
     cout << "\nCurrent Dungeons Status:" << endl;
+    cout << "====================================" << endl;
     for (int i = 0; i < maxConcurrentInstance; i++) {
-        cout << "Dungeon " << i + 1 << ": " << (instances[i].active ? "active" : "empty") << endl;
+        cout << "Dungeon " << i + 1 << ": "
+             << (instances[i].active ? "active" : "empty") << endl;
+        
+        // ASCII dungeon representation
+        cout << "+--------+" << endl;
+        cout << "|" << (instances[i].active ? "  🔥  " : "  🏰  ") << " |" << endl;
+        cout << "|" << (instances[i].active ? "  BOSS " : "  ---- ") << " |" << endl;
+        cout << "+--------+" << endl;
     }
+    cout << "====================================" << endl;
 }
 
 void queueParties(int instanceIndex){
@@ -109,8 +118,6 @@ void queueParties(int instanceIndex){
         instances[instanceIndex].active = true;
         lock.unlock();
 
-        displayStatus();
-
         // Simulate dungeon duration
         int dungeonTime = getRandomNumber(minTime, maxTime);
         this_thread::sleep_for(chrono::seconds(dungeonTime));
@@ -120,6 +127,8 @@ void queueParties(int instanceIndex){
         instances[instanceIndex].partiesServed++;
         instances[instanceIndex].totalTimeServed += dungeonTime;
         lock.unlock();
+
+        displayStatus();
     }
 
 }
