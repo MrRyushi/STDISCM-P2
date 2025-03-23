@@ -55,7 +55,7 @@ bool isNumValid(std::string value) {
 
     try {
         int num = std::stoi(value);
-        if (num <= 0) {
+        if (num < 0) {
             std::cerr << "Error: Number must be greater than or equal to 0!" << std::endl;
             return false;
         }
