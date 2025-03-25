@@ -143,18 +143,25 @@ int main(){
     // validate the input from config file
     string line;
     while(getline(configFile, line)){
-        if (line.find("instances") != string::npos) {
-            maxConcurrentInstance = getValueFromLine(line, "instances");
-        } else if (line.find("tanks") != string::npos) {
-            tankPlayers = getValueFromLine(line, "tanks");
-        } else if (line.find("healers") != string::npos) {
-            healerPlayers = getValueFromLine(line, "healers");
-        } else if (line.find("dps") != string::npos) {
-            dpsPlayers = getValueFromLine(line, "dps");
-        } else if (line.find("minTime") != string::npos) {
-            minTime = getValueFromLine(line, "minTime");
-        } else if (line.find("maxTime") != string::npos) {
-            maxTime = getValueFromLine(line, "maxTime");
+
+        size_t pos = line.find('=');
+        if (pos == string::npos) continue; // Skip invalid lines
+
+        string key = line.substr(0, pos);
+        key.erase(remove_if(key.begin(), key.end(), ::isspace), key.end()); // Trim spaces
+        
+        if (key == "n") {
+            maxConcurrentInstance = getValueFromLine(line, key);
+        } else if (key == "t") {
+            tankPlayers = getValueFromLine(line, key);
+        } else if (key == "h") {
+            healerPlayers = getValueFromLine(line, key);
+        } else if (key == "d") {
+            dpsPlayers = getValueFromLine(line, key);
+        } else if (key == "t1") {
+            minTime = getValueFromLine(line, key);
+        } else if (key == "t2") {
+            maxTime = getValueFromLine(line, key);
         }
     }
     configFile.close();

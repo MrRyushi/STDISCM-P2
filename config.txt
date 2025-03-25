@@ -1,6 +1,6 @@
-instances=4
-tanks=4
-healers=4
-dps=12
-minTime=3
-maxTime=8
+n=4
+t=10
+h=11
+d=32
+t1=1
+t2=3
